@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('network_connections', function (Blueprint $table) {
+        Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sender_id')->unsigned();
             $table->bigInteger('receiver_id')->unsigned();
-            $table->integer('status');
+            $table->integer('status')->default(STATUS_REQUEST_SENT);
+            $table->integer('common_connections')->nullable();
             $table->timestamps();
         });
 
-        Schema::table('network_connections', function (Blueprint $table) {
+        Schema::table('requests', function (Blueprint $table) {
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
         });
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('network_connections');
+        Schema::dropIfExists('requests');
     }
 };
