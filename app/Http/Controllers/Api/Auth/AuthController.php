@@ -61,4 +61,21 @@ class AuthController extends Controller
         }
 
     }
+
+    public function detail(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            DB::commit();
+            return successWithData(GENERAL_FETCHED_MESSAGE, Auth::user());
+
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return error($e->getMessage(), ERROR_500);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return error($e->getMessage(), ERROR_500);
+        }
+
+    }
 }

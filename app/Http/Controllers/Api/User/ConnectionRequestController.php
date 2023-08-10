@@ -167,7 +167,7 @@ class ConnectionRequestController extends Controller
         try {
             DB::beginTransaction();
             $inputs = $request->all();
-            if(!$this->connectionRequest->newQuery()->whereId($inputs['connection_request_id'])->delete())
+            if(!$this->connectionRequest->newQuery()->whereSenderId(auth()->user()->id)->whereReceiverId($inputs['receiver_id'])->delete())
             {
                 return error(GENERAL_ERROR_MESSAGE, ERROR_400);
             }
@@ -188,7 +188,12 @@ class ConnectionRequestController extends Controller
         try {
             DB::beginTransaction();
             $inputs = $request->all();
-            if(!$this->connectionRequest->newQuery()->whereId($inputs['connection_request_id'])->delete())
+            $conReq = $this->connectionRequest->newQuery()->whereSenderId(auth()->user()->id)->whereReceiverId($inputs['receiver_id'])->first();
+            if(!$conReq)
+            {
+                $conReq = $this->connectionRequest->newQuery()->whereSenderId($inputs['receiver_id'])->whereReceiverId(auth()->user()->id)->first();
+            }
+            if(!$conReq->delete())
             {
                 return error(GENERAL_ERROR_MESSAGE, ERROR_400);
             }
@@ -209,7 +214,7 @@ class ConnectionRequestController extends Controller
         try {
             DB::beginTransaction();
             $inputs = $request->all();
-            $connReq = $this->connectionRequest->newQuery()->whereId($inputs['connection_request_id'])->first();
+            $connReq = $this->connectionRequest->newQuery()->whereSenderId($inputs['receiver_id'])->whereReceiverId(auth()->user()->id)->first();
             $connReq->status = STATUS_REQUEST_ACCEPTED;
             if(!$connReq->save()) {
                 return error(GENERAL_ERROR_MESSAGE, ERROR_400);

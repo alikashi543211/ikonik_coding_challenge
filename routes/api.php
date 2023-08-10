@@ -28,6 +28,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware(['auth:sanctum'])->prefix('user')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('auth/logout', 'logout');
+        Route::post('auth/detail', 'detail');
     });
     Route::prefix('connection_request')->group(function () {
         Route::controller(ConnectionRequestController::class)->group(function () {

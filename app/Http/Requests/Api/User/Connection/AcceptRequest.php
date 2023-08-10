@@ -25,7 +25,7 @@ class AcceptRequest extends BaseRequest
     public function rules()
     {
         return [
-            'connection_request_id' => 'required|exists:connection_requests,id'
+            'receiver_id' => 'required|exists:users,id'
         ];
     }
 }
