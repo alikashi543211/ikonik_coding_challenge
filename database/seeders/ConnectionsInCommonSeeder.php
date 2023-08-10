@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Request;
+use App\Models\ConnectionRequest;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -12,9 +12,9 @@ class ConnectionsInCommonSeeder extends Seeder
 {
     public function run()
     {
-        if(Request::whereStatus(STATUS_REQUEST_ACCEPTED)->count() > 0)
+        if(ConnectionRequest::whereStatus(STATUS_REQUEST_ACCEPTED)->count() > 0)
         {
-            $reqList = Request::whereStatus(STATUS_REQUEST_ACCEPTED)->get();
+            $reqList = ConnectionRequest::whereStatus(STATUS_REQUEST_ACCEPTED)->get();
             foreach($reqList as $req)
             {
                 $req->common_connections = fetchCommonConnections($req->receiver_id, $req->sender_id);

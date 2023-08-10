@@ -6,6 +6,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -41,4 +43,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The following that belong to the Feed
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function connectionRequestAsSender(): HasMany
+    {
+        return $this->hasMany(ConnectionRequest::class, 'sender_id', 'id');
+    }
+
+    /**
+     * The following that belong to the Feed
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function connectionRequestAsReceiver(): HasMany
+    {
+        return $this->hasMany(ConnectionRequest::class, 'receiver_id', 'id');
+    }
+
 }

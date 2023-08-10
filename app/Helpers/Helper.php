@@ -15,14 +15,14 @@ function fetchCommonConnections($recId, $sendId)
     // For Sender Connection Ids
 
     // agar mene send kyey hen to receiver comparable wala  na ho
-    $senderConnectionIdsAsSent = DB::table('requests')
+    $senderConnectionIdsAsSent = DB::table('connection_requests')
         // ->where('id', '!=', $skipConId)
         ->where('sender_id', $sendId)
         ->where('receiver_id', "!=", $recId)
         ->whereStatus(STATUS_REQUEST_ACCEPTED)
         ->pluck('receiver_id')->toArray();
     // agar mene receive kye hen to sender comparable wala na ho.
-    $senderConnectionIdsAsReceived = DB::table('requests')
+    $senderConnectionIdsAsReceived = DB::table('connection_requests')
         // ->where('id', '!=', $skipConId)
         ->where('receiver_id', $sendId)
         ->where('sender_id', "!=", $recId)
@@ -33,7 +33,7 @@ function fetchCommonConnections($recId, $sendId)
     // For Receiver Connection Ids
 
     // agar mene send kyey hen to receiver comparable wala  na ho
-    $senderConnectionIdsAsSent = DB::table('requests')
+    $senderConnectionIdsAsSent = DB::table('connection_requests')
         // ->where('id', '!=', $skipConId)
         ->where('sender_id', $recId)
         ->where('receiver_id', "!=", $sendId)
@@ -41,7 +41,7 @@ function fetchCommonConnections($recId, $sendId)
         ->pluck('receiver_id')->toArray();
 
     // agar mene receive kye hen to sender comparable wala na ho.
-    $senderConnectionIdsAsReceived = DB::table('requests')
+    $senderConnectionIdsAsReceived = DB::table('connection_requests')
         // ->where('id', '!=', $skipConId)
         ->where('receiver_id', $recId)
         ->where('sender_id', "!=", $sendId)
