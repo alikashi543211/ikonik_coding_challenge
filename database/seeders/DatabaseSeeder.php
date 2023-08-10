@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UsersSeeder::class);
         $this->call(RequestsSeeder::class);
-        // $this->call(ConnectionsInCommonSeeder::class);
+        $this->call(ConnectionsInCommonSeeder::class);
     }
 }
